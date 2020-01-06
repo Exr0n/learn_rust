@@ -34,9 +34,11 @@ fn get_nums_from_stdin(size: u32) -> Vec::<i32> {
 
 fn quick_sort(nums: &mut Vec<i32>) {
     fn actual_quick_sort(nums: &mut Vec<i32>, mut l: usize, mut r: usize) {
-        if (r-1 <= l) { return; }
-
+        if (r == 0 || r-1 <= l) { return; }
+        
+        let beg = l;
         let end = r;
+
         r -= 1;
         while r > l {
             while nums[l] < nums[end] { l += 1; }
@@ -50,13 +52,13 @@ fn quick_sort(nums: &mut Vec<i32>) {
         }
         let tmp = nums[end];
         nums[end] = nums[l];
-        nums[l] = tmp; 
+        nums[l] = tmp;
+        
+        actual_quick_sort(nums, beg, r-1);
+        actual_quick_sort(nums, r+1, end); 
     }
 
-    
-
-    for num in nums {print!(" num {}", num);}
-    println!();
+    actual_quick_sort(nums, 0, nums.len()-1);
 }
 
 fn main() { 
